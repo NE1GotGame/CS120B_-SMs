@@ -21,6 +21,7 @@ tests = [
         'expected': [('PORTC', 0x07)],
         },
 
+# checking the depressed 
         {'description': 'PINA: 0x03 => PINC: 0x00',
         'steps': [ {'inputs': [('PINA', 0x03)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x00)],
@@ -30,7 +31,8 @@ tests = [
         'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x00)],
         },
-        
+
+# testing decrease        
         {'description': 'PINA: 0x02 => PINC: 0x00',
         'steps': [ {'inputs': [('PINA', 0x02)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x00)],
@@ -40,7 +42,7 @@ tests = [
         'steps': [ {'inputs': [('PINA', 0x00)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x00)],
         },
-
+# testing the increase
         {'description': 'PINA: 0x01 => PINC: 0x01',
         'steps': [ {'inputs': [('PINA', 0x01)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x01)],
@@ -141,6 +143,7 @@ tests = [
         'expected': [('PORTC', 0x09)],
         },
 
+#depressed here
         {'description': 'PINA: 0x03 => PINC: 0x00',
         'steps': [ {'inputs': [('PINA', 0x03)], 'iterations': 5 } ],
         'expected': [('PORTC', 0x00)],

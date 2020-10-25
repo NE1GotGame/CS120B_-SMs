@@ -13,15 +13,10 @@
 #endif
 
 enum locking_state {start, pound, Y, locked, unlocked} state;
-int main(void) {
-     /*Insert DDR and PORT initializations */ 
-	DDRA = 0x00; PORTA = 0xFF;
-	DDRB = 0xFF; PORTB = 0x00;
 
-	state = start;
-	unsigned char  enterLock= 0;
-    /* Insert your solution below */
-    while (1){
+unsigned char Lock(unsigned char buttons_lock) {
+	buttons_lock = PINA;
+
 	switch (state) {
 		case start:
 				state = pound;
@@ -48,7 +43,6 @@ int main(void) {
 		case locked:	
 				if (PINA == 0x02) {
 					state = unlocked;
-					enterLock = 1;
 				}
 				else if(PINA == 0x00){
 					state = locked;
@@ -76,21 +70,24 @@ int main(void) {
 				PORTB = 0x00;
 				break;
 		case unlocked:	
-				if (enterLock == 1) {
-					if (PORTB == 0x00) {		
-						PORTB = 0x01;
-					}
-					else {
-						PORTB = 0x00;
-					}
-					enterLock = 0;
-				}
-				break;
+				PORTB = 0x01;
 		default:	
 				break;
 	}
+
+}
+
+
+int main(void) {
+    /* Insert DDR and PORT initializations */
+	DDRA = 0x00; PORTA = 0xFF;
+	DDRB = 0xFF; PORTB = 0x00;
+
+	unsigned char  buttons_lock = 0x00;
+    /* Insert your solution below */
+    while (1){
+	Lock(buttons_lock);
     }
     return 1;
 }
-
 

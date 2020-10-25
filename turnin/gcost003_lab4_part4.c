@@ -13,8 +13,9 @@
 #endif
 
 enum locking_state {start, pound, Y, locked, unlocked} state;
+
 int main(void) {
-     /*Insert DDR and PORT initializations */ 
+    /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
 
@@ -92,5 +93,4 @@ int main(void) {
     }
     return 1;
 }
-
 

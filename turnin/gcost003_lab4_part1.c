@@ -12,58 +12,83 @@
 #include "simAVRHeader.h"
 #endif
 
-enum button{ LED, LED_PB0, LED_PB1} state;
+enum States{start, B0unpressed, B0pressed, B1not, B1pressed} state;
 
-void onLED(char button) {
+unsigned char tmpA = 0x00;
+unsigned char tmpB = 0x00;
+
+void TickSM() {
 	
 	switch(state) {
-		case LED:
-			state = LED_PB0;
+		case start: 
+			state = B0unpressed; 
 			break;
-		case LED_PB0:
-			if(button) {
-				state = LED_PB1;
+		case B0unpressed: 
+			if((tmpA & 0x01) == 0x01) { 
+				state = B0pressed;
 			}
-			else if (!button) {
-				state = LED_PB0;
-			}
-			break;
-		case LED_PB1:
-			if (button) {
-				state = LED_PB0;
-			}
-			else if (!button) {
-				state = LED_PB1;
+			else {
+				state = B0unpressed;
 			}
 			break;
-		default:
-			state = LED;
+		case B0pressed: 
+			if((tmpA & 0x01) == 0x00) {
+				state = B1not;
+			}
+			else {
+				state = B0pressed;
+			}			
+			break;
+		case B1not: 
+			if((tmpA & 0x01) == 0x01) { 
+				state = B1pressed; 
+			}
+			else {
+				state = B1not;
+			}
+			break;
+		case B1pressed:
+			if((tmpA & 0x01) == 0x00) {
+				state = B0unpressed;
+			}
+			else {
+				state = B1pressed;
+			}
 			break;
 	}
-	switch(state){
-		case LED_PB0:
-			PORTB = 0x01;
-			break;
-		case LED_PB1:
-			PORTB = 0x02;
-			break;
-		default:
-			PORTB = 0X01;
-			break;
-	}
-}
 
+	switch(state) {
+		case start: 
+			tmpB = 0x01; 
+			break;
+		case B0unpressed: 
+			tmpB = 0x01; 
+			break;
+		case B0pressed: 
+			tmpB = 0x02; 
+			break;
+		case B1not: 
+			tmpB = 0x02; 				
+			break;
+		case B1pressed: 
+			tmpB = 0x01; 
+			break;
+	}
+	
+}
 
 int main(void) {
     /* Insert DDR and PORT initializations */
-	DDRA = 0x00; PORTA = 0xFF;
-	DDRB = 0xFF; PORTB = 0x00;
+    DDRA = 0x00; PORTA = 0xFF;
+    DDRB = 0xFF; PORTB = 0x00;
     /* Insert your solution below */
-	unsigned char button;
-	state = LED;
+    
+    state = start;
+    
     while (1) {
-	button = PINA & 0x01;
-	onLED(button);
+	tmpA = PINA & 0x01;
+	TickSM();
+	PORTB = tmpB;
     }
     return 1;
 }

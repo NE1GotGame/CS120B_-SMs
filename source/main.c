@@ -13,8 +13,9 @@
 #endif
 
 enum locking_state {start, pound, Y, locked, unlocked} state;
+
 int main(void) {
-     /*Insert DDR and PORT initializations */ 
+    /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
 
@@ -27,6 +28,9 @@ int main(void) {
 				state = pound;
 				break;
 		case pound:	
+				if (PINA == PINA){
+					state = locked;
+				}
 				if(PINA == 0x04){
 					state = Y;
 				}
@@ -46,9 +50,12 @@ int main(void) {
 				}
 				break;
 		case locked:	
+				if (PINA == PINA) {
+					state == locked;
+				}
 				if (PINA == 0x02) {
-					state = unlocked;
 					enterLock = 1;
+					state = unlocked;
 				}
 				else if(PINA == 0x00){
 					state = locked;
@@ -92,5 +99,4 @@ int main(void) {
     }
     return 1;
 }
-
 

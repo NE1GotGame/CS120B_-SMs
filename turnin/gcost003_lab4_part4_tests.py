@@ -56,6 +56,10 @@ tests = [
     'expected': [('PORTB', 0x00)],
     },
 
+   {'description': 'PINA: 0x01 => PORTB: 0x00 ',
+    'steps': [ {'inputs': [('PINA', 0x01), ('PINA', 0x01)], 'iterations': 5 } ],
+    'expected': [('PORTB', 0x00)], },
+	
    
     ]
 
